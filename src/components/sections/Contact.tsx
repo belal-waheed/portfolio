@@ -1,7 +1,18 @@
-import { useState } from 'react';
-import { AlertCircle, Check, Copy, ExternalLink, Github, Linkedin, Loader2, Mail, MapPin, Send } from 'lucide-react';
-import { Button, Input, Textarea } from '@/components/ui';
-import { PROFILE } from '@/data/constants';
+import { useState } from "react";
+import {
+  AlertCircle,
+  Check,
+  Copy,
+  ExternalLink,
+  Github,
+  Linkedin,
+  Loader2,
+  Mail,
+  MapPin,
+  Send,
+} from "lucide-react";
+import { Button, Input, Textarea } from "@/components/ui";
+import { PROFILE } from "@/data/constants";
 
 interface FormData {
   name: string;
@@ -18,20 +29,20 @@ interface FormErrors {
 }
 
 const TOPIC_PILLS = [
-  'Full-Time Opportunity',
-  'Freelance / Contract Project',
-  'Architecture & Code Review',
-  'General Inquiry',
+  "Full-Time Opportunity",
+  "Freelance / Contract Project",
+  "Architecture & Code Review",
+  "General Inquiry",
 ];
 
 export function Contact() {
   const [formData, setFormData] = useState<FormData>({
-    name: '',
-    email: '',
-    subject: '',
-    message: '',
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
   });
-  const [selectedTopic, setSelectedTopic] = useState<string>('');
+  const [selectedTopic, setSelectedTopic] = useState<string>("");
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -46,7 +57,7 @@ export function Contact() {
   };
 
   const handleCopyDraft = () => {
-    const draftText = `Subject: ${formData.subject || 'Portfolio Inquiry'}\nFrom: ${formData.name} (${formData.email})\n\n${formData.message}`;
+    const draftText = `Subject: ${formData.subject || "Portfolio Inquiry"}\nFrom: ${formData.name} (${formData.email})\n\n${formData.message}`;
     navigator.clipboard.writeText(draftText);
     setDraftCopied(true);
     setTimeout(() => setDraftCopied(false), 2500);
@@ -61,11 +72,11 @@ export function Contact() {
 
   const validate = (): boolean => {
     const errs: FormErrors = {};
-    if (!formData.name.trim()) errs.name = 'Please enter your name';
-    if (!formData.email.trim()) errs.email = 'Please enter your email';
+    if (!formData.name.trim()) errs.name = "Please enter your name";
+    if (!formData.email.trim()) errs.email = "Please enter your email";
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email))
-      errs.email = 'Please enter a valid email';
-    if (!formData.message.trim()) errs.message = 'Please enter your message';
+      errs.email = "Please enter a valid email";
+    if (!formData.message.trim()) errs.message = "Please enter your message";
     setErrors(errs);
     return Object.keys(errs).length === 0;
   };
@@ -77,27 +88,33 @@ export function Contact() {
     setSubmitError(null);
 
     try {
-      const res = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
 
-      const data = (await res.json().catch(() => ({}))) as { success?: boolean; error?: string; message?: string };
+      const data = (await res.json().catch(() => ({}))) as {
+        success?: boolean;
+        error?: string;
+        message?: string;
+      };
 
       if (res.ok && (data.success || !data.error)) {
         setIsSubmitted(true);
         setSubmitError(null);
-        setFormData({ name: '', email: '', subject: '', message: '' });
-        setSelectedTopic('');
+        setFormData({ name: "", email: "", subject: "", message: "" });
+        setSelectedTopic("");
         setTimeout(() => setIsSubmitted(false), 7000);
       } else {
-        const errorMsg = data.error || data.message || 'Server error while dispatching email.';
+        const errorMsg =
+          data.error || data.message || "Server error while dispatching email.";
         setSubmitError(errorMsg);
         setIsSubmitted(false);
       }
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : 'Network connection failed.';
+      const msg =
+        err instanceof Error ? err.message : "Network connection failed.";
       setSubmitError(msg);
       setIsSubmitted(false);
     } finally {
@@ -106,7 +123,7 @@ export function Contact() {
   };
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -116,15 +133,17 @@ export function Contact() {
   };
 
   const mailtoFallbackUrl = `mailto:${PROFILE.email}?subject=${encodeURIComponent(
-    formData.subject || 'Portfolio Inquiry'
+    formData.subject || "Portfolio Inquiry",
   )}&body=${encodeURIComponent(
-    `Hi Belal,\n\nMy name is ${formData.name || '[Your Name]'} (${formData.email || '[Your Email]'}).\n\n${formData.message || ''}`
+    `Hi Belal,\n\nMy name is ${formData.name || "[Your Name]"} (${formData.email || "[Your Email]"}).\n\n${formData.message || ""}`,
   )}`;
 
   return (
-    <section id="contact" className="section-padding relative overflow-hidden bg-zinc-950">
+    <section
+      id="contact"
+      className="section-padding relative overflow-hidden bg-zinc-950"
+    >
       <div className="container mx-auto px-6 lg:px-8 relative z-10">
-        
         {/* Section Header */}
         <div className="mb-12 lg:mb-16 text-center max-w-2xl mx-auto">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-xs font-mono font-semibold uppercase tracking-widest mb-3">
@@ -132,18 +151,18 @@ export function Contact() {
             <span>Get in Touch</span>
           </div>
           <h2 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-zinc-100 tracking-tight">
-            Let's Build Something <span className="text-gradient-emerald">Great</span>
+            Let's Build Something{" "}
+            <span className="text-gradient-emerald">Great</span>
           </h2>
           <p className="text-zinc-400 text-sm sm:text-base mt-3">
-            Whether you have a full-time role, a freelance project, or an engineering challenge, my inbox is always open.
+            Whether you have a full-time role, a freelance project, or an
+            engineering challenge, my inbox is always open.
           </p>
         </div>
 
         <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-start max-w-6xl mx-auto">
-          
           {/* Left Column: 1-Click Fast Actions & Direct Contacts */}
           <div className="lg:col-span-5 space-y-5">
-            
             {/* 1-Click Copy Email Card */}
             <div className="studio-card p-6 border border-emerald-500/30 bg-zinc-900/90 shadow-2xl space-y-3">
               <div className="flex items-center justify-between">
@@ -194,10 +213,12 @@ export function Contact() {
 
             {/* Social Network Profiles */}
             <div className="studio-card p-5 border border-white/10 space-y-3 bg-zinc-900/60">
-              <h4 className="text-xs font-mono text-zinc-400 uppercase">Profiles & Social</h4>
+              <h4 className="text-xs font-mono text-zinc-400 uppercase">
+                Profiles & Social
+              </h4>
               <div className="flex items-center gap-2">
                 <a
-                  href="https://github.com/BelalWaheed"
+                  href="https://github.com/belal-waheed"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-xl bg-zinc-800/80 hover:bg-zinc-700 text-zinc-200 text-xs font-medium border border-white/5 transition-colors"
@@ -205,7 +226,7 @@ export function Contact() {
                   <Github size={14} /> GitHub
                 </a>
                 <a
-                  href="https://www.linkedin.com/in/belalwhaeed"
+                  href="https://www.linkedin.com/in/belal-whaeed"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-xl bg-zinc-800/80 hover:bg-zinc-700 text-zinc-200 text-xs font-medium border border-white/5 transition-colors"
@@ -214,13 +235,11 @@ export function Contact() {
                 </a>
               </div>
             </div>
-
           </div>
 
           {/* Right Column: Interactive Direct-Dispatch Form */}
           <div className="lg:col-span-7">
             <div className="studio-card p-6 sm:p-8 border border-white/10 shadow-2xl bg-zinc-900/90 space-y-6">
-              
               {/* Topic Intent Selector */}
               <div className="space-y-2">
                 <label className="text-xs font-mono text-zinc-400 uppercase block">
@@ -234,8 +253,8 @@ export function Contact() {
                       onClick={() => handleTopicClick(topic)}
                       className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors cursor-pointer ${
                         selectedTopic === topic
-                          ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 font-semibold'
-                          : 'bg-zinc-800/80 text-zinc-400 hover:text-zinc-200 border border-white/5'
+                          ? "bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 font-semibold"
+                          : "bg-zinc-800/80 text-zinc-400 hover:text-zinc-200 border border-white/5"
                       }`}
                     >
                       {topic}
@@ -318,7 +337,12 @@ export function Contact() {
                         <span>Direct Dispatch Notice</span>
                       </div>
                       <p className="text-zinc-300 leading-relaxed">
-                        {submitError} Your message has been saved in the form. You can copy it or send directly to <span className="font-mono text-emerald-400">{PROFILE.email}</span>.
+                        {submitError} Your message has been saved in the form.
+                        You can copy it or send directly to{" "}
+                        <span className="font-mono text-emerald-400">
+                          {PROFILE.email}
+                        </span>
+                        .
                       </p>
                       <div className="flex flex-wrap gap-2 pt-1">
                         <button
@@ -326,8 +350,16 @@ export function Contact() {
                           onClick={handleCopyDraft}
                           className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-200 font-medium transition-colors border border-white/10 cursor-pointer"
                         >
-                          {draftCopied ? <Check size={13} className="text-emerald-400" /> : <Copy size={13} />}
-                          <span>{draftCopied ? 'Message Copied!' : 'Copy Form Content'}</span>
+                          {draftCopied ? (
+                            <Check size={13} className="text-emerald-400" />
+                          ) : (
+                            <Copy size={13} />
+                          )}
+                          <span>
+                            {draftCopied
+                              ? "Message Copied!"
+                              : "Copy Form Content"}
+                          </span>
                         </button>
                         <a
                           href={mailtoFallbackUrl}
@@ -349,7 +381,8 @@ export function Contact() {
                   >
                     {isSubmitting ? (
                       <>
-                        <Loader2 size={16} className="animate-spin" /> Sending Message...
+                        <Loader2 size={16} className="animate-spin" /> Sending
+                        Message...
                       </>
                     ) : isSubmitted ? (
                       <>
@@ -366,18 +399,16 @@ export function Contact() {
                   {isSubmitted && (
                     <div className="p-3.5 rounded-xl bg-emerald-950/40 border border-emerald-500/30 text-center animate-fade-in">
                       <p className="text-xs text-emerald-400 font-mono font-medium">
-                        Thank you! Your message has been dispatched. I will reply shortly.
+                        Thank you! Your message has been dispatched. I will
+                        reply shortly.
                       </p>
                     </div>
                   )}
                 </div>
               </form>
-
             </div>
           </div>
-
         </div>
-
       </div>
     </section>
   );
