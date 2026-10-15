@@ -25,6 +25,94 @@ export const SOCIAL_LINKS: SocialLink[] = [
 
 export const PROJECTS: Project[] = [
   {
+    id: "markbel",
+    slug: "markbel",
+    title: "Markbel",
+    subtitle: "Offline-First Bookmark Vault & Personal Knowledge Engine",
+    category: "Systems Architecture & Offline-First PWA",
+    description: "Production-grade, offline-first bookmark vault and Pocket/Raindrop.io alternative. Delivers 0ms local reads/writes via Dexie.js v5 IndexedDB, bi-directional delta sync over Cloudflare Workers & D1 SQLite, native Android share-sheet integration, and Manifest V3 extensions.",
+    longDescription: "Markbel is an open-source, local-first bookmark manager engineered for instant performance and absolute data privacy. It solves cloud bookmark latency with an offline-first transactional outbox pattern on IndexedDB, monotonic delta sync on Cloudflare D1, a deterministic 4-stage media fallback FSM, and 228 automated unit tests.",
+    image: "/projects/markbel/1.webp",
+    imageMobile: "/projects/markbel/1-m.webp",
+    images: ["/projects/markbel/1.webp"],
+    imagesMobile: ["/projects/markbel/1-m.webp"],
+    tags: ["React 19", "TypeScript", "Dexie.js v5", "Cloudflare Workers", "Cloudflare D1", "Capacitor 8", "Tailwind CSS v4", "Manifest V3"],
+    liveUrl: "https://mark.obel.workers.dev",
+    githubUrl: "https://github.com/belal-waheed/markbel",
+    featured: true,
+    role: "Creator & Lead Systems Architect",
+    timeline: "2026 — Present",
+    team: "Solo Architecture & Delivery",
+    features: [
+      "0ms Local Read/Write Latency via Dexie.js v5 IndexedDB with reactive live queries",
+      "Bi-Directional Delta Sync Engine with Last-Write-Wins (LWW) conflict arbitration",
+      "Edge Media Metadata Scraper & Proxy for YouTube, Instagram Reels, X/Twitter, Reddit",
+      "Deterministic 4-Stage Image Fallback FSM with synchronous social CDN expiration detection",
+      "Native Android App (Capacitor 8) with OS Share Sheet Intent receiver",
+      "Chromium & Firefox Manifest V3 browser extensions with 1-click active tab capture",
+      "100% Free & Open-Source (MIT License) with 228 automated unit tests"
+    ],
+    architecture: [
+      "React 19 + Vite frontend with Tailwind CSS v4 styling and Workbox PWA caching",
+      "Client-side Dexie.js v5 transactional outbox and background compaction scheduler",
+      "Cloudflare Workers edge router (Hono) backed by Cloudflare D1 serverless SQLite",
+      "Capacitor 8 native Android bridge with sub-50ms share-sheet HUD overlay"
+    ],
+    architectureLayers: [
+      {
+        layer: "Client & Presentation",
+        tech: "React 19, TypeScript, Tailwind CSS v4, Lucide Icons",
+        details: "Responsive dual-view feed (cards & compact list), customizable navigation preferences."
+      },
+      {
+        layer: "Local Persistence",
+        tech: "Dexie.js v5, IndexedDB, WebCrypto",
+        details: "Schema convergence, transaction isolation, offline token caching."
+      },
+      {
+        layer: "Edge & Cloud Sync",
+        tech: "Cloudflare Workers, Cloudflare D1 (SQLite), HTTP 304 Cursors",
+        details: "Monotonic sequence delta replication, edge image proxying with 410 fast-fail."
+      }
+    ],
+    challenges: [
+      "Eliminating the 500ms-1200ms latency of remote bookmark mutations while guaranteeing zero data loss during network drops.",
+      "Preventing image breakage caused by expiring social media CDN URLs (Instagram, Reddit, X/Twitter) within 24 hours.",
+    ],
+    detailedChallenges: [
+      {
+        title: "0ms Local Outbox & Monotonic Delta Sync",
+        problem: "Users expect instant saves and tag updates regardless of poor internet connectivity, but naive background sync causes race conditions and split-brain states.",
+        solution: "Engineered a local transactional outbox using Dexie.js v5 with reactive live queries and monotonic cursor-based delta replication against Cloudflare D1."
+      },
+      {
+        title: "Social Media CDN Expiration & Image Fallback",
+        problem: "CDN URLs from major social platforms expire quickly, leaving broken images across user bookmark grids.",
+        solution: "Built an edge proxy with WebP transcoding combined with a client-side 4-stage fallback finite state machine that deterministically renders SVG fallbacks if upstream origins fail."
+      }
+    ],
+    metrics: [
+      "0ms Local Read/Write Latency via IndexedDB",
+      "228 Automated Unit & Integration Tests Passing",
+      "100% Offline Capability for Search & Categorization"
+    ],
+    detailedMetrics: [
+      { label: "Local Mutation Speed", value: "0ms", detail: "Instant UI updates via Dexie.js transactional outbox" },
+      { label: "Test Coverage", value: "228 Tests", detail: "Comprehensive unit suites for outbox, sync, FSM, and scraper" },
+      { label: "Edge Sync Overhead", value: "< 45ms", detail: "Cloudflare Workers + D1 serverless SQLite response" }
+    ],
+    techStackMatrix: {
+      frontend: ["React 19", "TypeScript", "Dexie.js v5", "Tailwind CSS v4", "Lucide Icons"],
+      backend: ["Cloudflare Workers", "Hono", "REST API", "Zod"],
+      database: ["IndexedDB", "Cloudflare D1 (SQLite)"],
+      devops: ["Cloudflare Pages", "Capacitor 8", "Manifest V3", "Vitest"]
+    },
+    learnings: [
+      "Local-first architecture requires designing outbox mutations as immutable event streams to guarantee idempotent re-syncing.",
+      "A deterministic finite state machine on image rendering prevents visual jitter and broken media states."
+    ]
+  },
+  {
     id: "1",
     slug: "tivaq",
     title: "Tivaq",
@@ -494,6 +582,7 @@ export const SKILLS: Skill[] = [
   { name: "JavaScript (ES6+)", category: "frontend", description: "Async/Await, DOM, Concepts" },
   { name: "TypeScript", category: "frontend", description: "Type Safety, Interfaces, Generics" },
   { name: "Tailwind CSS", category: "frontend", description: "Glassmorphism, Responsive Design" },
+  { name: "Dexie.js & IndexedDB", category: "frontend", description: "Offline-First Outbox, Reactive Live Queries" },
   { name: "Redux Toolkit", category: "frontend", description: "Global Store, Async Thunks" },
   { name: "Next.js", category: "frontend", description: "SSR, SSG, App Router" },
   { name: "GSAP & Framer Motion", category: "frontend", description: "ScrollTrigger, Micro-interactions" },
@@ -502,6 +591,7 @@ export const SKILLS: Skill[] = [
   // Backend & Database
   { name: "Node.js", category: "backend", description: "Event Loop, Express Servers" },
   { name: "Express.js", category: "backend", description: "RESTful Routing, Middleware" },
+  { name: "Cloudflare D1 (SQLite)", category: "backend", description: "Serverless Edge Database, Schema Migrations" },
   { name: "MongoDB", category: "backend", description: "Mongoose ODM, Aggregations" },
   { name: "REST APIs", category: "backend", description: "API Design, JSON, JWT Auth" },
   { name: "C# / ASP.NET", category: "backend", description: "MVC Architecture, Web APIs" },
@@ -510,6 +600,7 @@ export const SKILLS: Skill[] = [
   // Tools & Ecosystem
   { name: "Git & GitHub", category: "tools", description: "Version Control, Feature Branches" },
   { name: "Cloudflare Workers & Pages", category: "tools", description: "Edge Functions, Static Assets, DNS" },
+  { name: "Capacitor & Web APIs", category: "tools", description: "Cross-Platform Native Bridges, Intents" },
   { name: "Vercel", category: "tools", description: "Deployment, CI/CD, Serverless" },
   { name: "Postman", category: "tools", description: "API Testing & Documentation" },
   { name: "Figma", category: "tools", description: "UI Wireframing & Design Tokens" },
@@ -529,22 +620,27 @@ export const PROFILE = {
 
 export const SEO_CONFIG = {
   siteUrl: "https://belal.is-a.dev",
-  siteName: "Belal Waheed | Full-Stack Developer",
+  siteName: "Belal Waheed | Full-Stack & Front-End Software Engineer",
   siteDescription:
-    "Belal Waheed — Full-Stack Developer based in Cairo, crafting modern web experiences with React, Node.js, and MongoDB. View my portfolio, projects, and get in touch.",
+    "Full-Stack & Front-End Software Engineer based in Cairo. Specialist in React 19, TypeScript, offline-first PWAs, and Cloudflare Workers. Creator of Markbel.",
   keywords: [
     "Belal Waheed",
     "Full-Stack Developer",
+    "Front-End Engineer",
+    "Software Engineer",
+    "Markbel",
     "React Developer",
+    "TypeScript",
+    "Offline-First",
+    "Cloudflare Workers",
+    "IndexedDB",
     "Node.js Developer",
     "MongoDB",
     "Portfolio",
     "Web Developer Cairo",
-    "React Portfolio",
     "Tailwind CSS",
-    "JavaScript Developer",
-    "Software Engineer",
   ],
-  ogImage: "/profile.jpg",
+  ogImage: "/profile.webp",
   twitterHandle: "@BelalWah8ed",
 };
+

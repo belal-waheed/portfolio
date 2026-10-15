@@ -11,17 +11,29 @@
   <url>
     <loc>https://belal.is-a.dev/resume</loc>
     <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- LLM Context & Knowledge Graph Discovery -->
+  <url>
+    <loc>https://belal.is-a.dev/llms.txt</loc>
+    <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://belal.is-a.dev/llms-full.txt</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
   </url>
 
   <!-- Dedicated Engineering Case Studies -->
   <url>
-    <loc>https://belal.is-a.dev/project/tivaq</loc>
+    <loc>https://belal.is-a.dev/project/markbel</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://belal.is-a.dev/project/moviq</loc>
+    <loc>https://belal.is-a.dev/project/tivaq</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -31,13 +43,18 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://belal.is-a.dev/project/obel</loc>
+    <loc>https://belal.is-a.dev/project/moviq</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://belal.is-a.dev/project/obel</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://belal.is-a.dev/project/cema</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.7</priority>
   </url>
 </urlset>

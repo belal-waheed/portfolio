@@ -18,8 +18,8 @@ const contactInfo = [
 ];
 
 const profileLinks = [
-  { icon: Linkedin, label: 'LinkedIn', href: 'https://www.linkedin.com/in/belalwhaeed' },
-  { icon: Github, label: 'GitHub', href: 'https://github.com/BelalWaheed' },
+  { icon: Linkedin, label: 'LinkedIn', href: 'https://www.linkedin.com/in/belal-whaeed' },
+  { icon: Github, label: 'GitHub', href: 'https://github.com/belal-waheed' },
 ];
 
 const skills = {
@@ -50,27 +50,28 @@ export function ResumePage() {
 
   const handleCopyATS = () => {
     const text = `
-BELAL WAHEED - FULL-STACK SOFTWARE ENGINEER
+BELAL WAHEED - FRONT-END DEVELOPER
 Cairo, Egypt | belalwaheed000@gmail.com | +20 1111004353 | https://belal.is-a.dev
-LinkedIn: https://www.linkedin.com/in/belalwhaeed | GitHub: https://github.com/BelalWaheed
+LinkedIn: https://www.linkedin.com/in/belal-whaeed | GitHub: https://github.com/belal-waheed
 
 SUMMARY:
-Full-Stack Developer with deep expertise in React 19, TypeScript, Node.js, and MongoDB. Passionate about clean layered architecture, 60fps animations, and building scalable full-stack products.
+Front-End Developer with strong hands-on experience building production web applications using React 19, Next.js, and TypeScript. Proficient in responsive design, REST API integration, state management, and agile workflows with Git and Jira.
 
 EDUCATION:
-Bachelor of Information Technology, Sinai University - Arish (Sep 2023 - Present) | GPA: 3.3
+Bachelor of Information Technology, Sinai University - Arish (Sep 2023 - Present) | GPA: 3.3 / 4.0
 
 CORE SKILLS:
-- Frontend: React.js, TypeScript, Next.js, Tailwind CSS, Redux Toolkit, Framer Motion, GSAP
-- Backend: Node.js, Express.js, RESTful APIs, ASP.NET Core, JWT Auth
-- Databases: MongoDB, SQL Server, PostgreSQL
-- Tools: Git, GitHub, Vercel, Postman, Figma
+- Core & Languages: JavaScript (ES6+), TypeScript, HTML5, CSS3
+- Frontend Frameworks: React.js (React 18/19), Next.js (App Router), Vite
+- State & APIs: Redux Toolkit, React Context, Custom Hooks, REST API Integration
+- Styling: Tailwind CSS (v3/v4), CSS Modules, Flexbox, Grid, Responsive Design
+- Tools & Agile: Git, GitHub, Jira, Postman, Figma, Vercel
 
-PROJECTS:
-1. Tivaq (Fragrance E-commerce): React, Node.js, Express, MongoDB, Tailwind, i18n
-2. Moviq (Movie & TV Discovery): React, Node.js, TMDB API, Tailwind, Redux Toolkit
-3. Loop (Social & Media Platform): React, TypeScript, Node.js, MongoDB
-4. Obel (Productivity Workspace): React, Node.js, Express, MongoDB
+FEATURED PROJECTS:
+1. Markbel (Offline-First Bookmark Archiver & PWA): React 19, TypeScript, Dexie.js IndexedDB, Tailwind CSS v4, Browser Extensions
+2. LOOP (AI Customer Feedback & Intelligence Dashboard): Next.js App Router, TypeScript, React, Tailwind CSS, Lucide Icons
+3. Tivaq (Luxury Fragrance E-Commerce & Verification): React 19, TypeScript, Redux Toolkit, Tailwind CSS, i18n
+4. Moviq (Cinematic Media Discovery Platform): React, Redux Toolkit, TMDB REST API, Tailwind CSS
     `.trim();
 
     navigator.clipboard.writeText(text);

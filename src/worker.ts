@@ -125,6 +125,8 @@ export default {
         newHeaders.set('Cache-Control', 'public, max-age=31536000, immutable');
       } else if (url.pathname.match(/\.(webp|webm|mp4|png|jpg|jpeg|svg|pdf|ico)$/i)) {
         newHeaders.set('Cache-Control', 'public, max-age=2592000, stale-while-revalidate=86400');
+      } else if (url.pathname.match(/\.(txt|xml)$/i)) {
+        newHeaders.set('Cache-Control', 'public, max-age=3600, stale-while-revalidate=86400');
       }
       return new Response(response.body, {
         status: response.status,

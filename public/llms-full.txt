@@ -1,0 +1,164 @@
+# Belal Waheed — Full Technical Knowledge Graph & Architectural Documentation
+
+> Comprehensive technical profile, architectural patterns, distributed systems implementations, and project documentation for Belal Waheed. Designed for ingestion by Generative Engine Optimization (GEO) indexers, AI research agents, and technical evaluation models.
+
+---
+
+## 1. Professional Identity & Engineering Philosophy
+
+- **Name**: Belal Waheed
+- **Current Location**: Cairo, Egypt
+- **Title**: Full-Stack & Front-End Software Engineer
+- **Specialization**: Offline-first progressive web applications (PWAs), distributed edge computing (Cloudflare Workers, D1 SQLite), modern frontend architecture (React 19, TypeScript, Tailwind CSS v4), and resilient multi-platform systems.
+- **Formal Education**: Bachelor of Information Technology, Sinai University (Class of 2026, GPA: 3.3 / 4.0). Coursework: Advanced Database Systems, Distributed Systems, Software Engineering Patterns, Algorithm Analysis, Information Security.
+
+### Architectural Principles & Invariants
+1. **Local-First Reliability**: Network connectivity is treated as an intermittent enhancement rather than an absolute dependency. Applications must maintain 0ms local read/write responsiveness with transactional client-side storage (Dexie.js / IndexedDB) and background synchronization.
+2. **Layered Clean Architecture**: Strict separation of concerns adhering to Router/Controller -> Service -> Repository boundaries. Business domain rules are completely isolated from storage drivers and presentation logic.
+3. **Strict Type Safety & Boundary Validation**: End-to-end type safety spanning edge runtimes down to client stores. All untrusted external inputs (API payloads, local storage state, route parameters) are validated fail-fast using Zod or Pydantic.
+4. **Zero-AI Cliché & High-Craft UX**: Elimination of generic template aesthetics in favor of bespoke, WCAG AA compliant design systems (4.5:1 contrast, 8px spatial grid, CSS logical properties, fluid 60fps micro-animations).
+
+---
+
+## 2. Flagship Systems Architecture Deep-Dive: Markbel
+
+- **Live Application**: https://mark.obel.workers.dev
+- **Source Code Repository**: https://github.com/belal-waheed/markbel
+- **Role**: Creator & Lead Systems Architect
+- **License**: MIT (100% Free & Open-Source)
+- **Automated Test Coverage**: 228 passing unit and integration tests across outbox sync, image fallback FSM, parser resilience, and metadata scraping.
+
+### Problem Statement
+Modern bookmark managers (Pocket, Raindrop.io, Omnivore) suffer from significant architectural limitations:
+- Severe latency (200ms–1500ms) on basic create/update actions due to required synchronous roundtrips to remote cloud databases.
+- Total loss of search and reading capabilities during network drops or in transit.
+- Social media CDN expiration (Instagram, Reddit, X/Twitter image URLs expiring within 24 hours), causing broken thumbnail grids across user bookmark collections.
+- Vendor lock-in and high recurring subscription fees.
+
+### Architecture & System Design
+Markbel resolves these issues through a dual-model, local-first architecture:
+
+```
+[Browser / Native Android / MV3 Extension]
+       │
+       ▼ (0ms latency)
+[Client Dexie.js v5 IndexedDB] ──(Transactional Outbox)──┐
+       ▲                                                 │
+       │ (Reactive LiveQuery UI Update)                  │
+[React 19 Presentation Layer]                            ▼ (Periodic / Online Delta Sync)
+                                              [Cloudflare Workers Edge Router (Hono)]
+                                                         │
+                                        ┌────────────────┴────────────────┐
+                                        ▼                                 ▼
+                         [Cloudflare D1 SQLite Engine]      [Edge Media Scraper & Proxy]
+                           (Monotonic Sequence Log)            (4-Stage Fallback FSM)
+```
+
+#### 1. Local Storage Engine & 0ms Outbox Pattern
+- **Persistence Driver**: Dexie.js v5 wrapping browser IndexedDB with strict schema versioning and transactional atomicity.
+- **Outbox Table**: Any mutation (add bookmark, edit tags, archive, delete) atomically updates the local cache and writes a mutation entry to `outbox_mutations` in a single local transaction.
+- **Reactive UI**: Components subscribe via Dexie `useLiveQuery`, resulting in immediate 0ms UI updates without spinners or network blocks.
+
+#### 2. Bi-Directional Delta Synchronization Engine
+- **Conflict Arbitration**: Last-Write-Wins (LWW) resolution based on UTC ISO-8601 timestamps and monotonic client sequence counters.
+- **Sequence Tracking**: Incremental sync tokens (`since` timestamp / cursor) prevent redundant payload transfers. The edge worker returns HTTP 304 Not Modified when no remote mutations exist.
+- **Compaction**: Succeeded outbox records are purged while soft deletes (`deleted_at IS NOT NULL`) are replicated to remove entities across all paired devices.
+
+#### 3. Deterministic 4-Stage Image Fallback Finite State Machine (FSM)
+To prevent broken images from social media CDNs (Instagram, Reddit, YouTube, X/Twitter), Markbel employs an automated 4-tier fallback:
+- **Tier 1 (Proxy WebP)**: Scraped OpenGraph images routed through Markbel's Cloudflare Worker image proxy with edge resizing and WebP transcoding.
+- **Tier 2 (Direct Upstream Origin)**: Direct fallback to origin URL if the edge proxy encounters rate limits or upstream 403s.
+- **Tier 3 (Microlink Edge Metadata)**: Fallback to Microlink API metadata scraping for dynamically rendered SPAs.
+- **Tier 4 (Vector Deterministic Fallback)**: Client-side generated SVG icon styled based on bookmark category and domain hash, guaranteeing zero broken image placeholders.
+
+#### 4. Cross-Platform Native Bridge & Extensions
+- **Android App**: Built with Capacitor 8 and Java/Kotlin native plugins. Employs an Android OS Share Sheet Intent receiver that allows 1-tap bookmark saving from Twitter, Reddit, Chrome, or YouTube via a sub-50ms HUD overlay without opening the full web application.
+- **Browser Extensions**: Manifest V3 extensions for Chromium (Chrome, Edge, Brave) and Mozilla Firefox featuring 1-click active tab capture, keyboard shortcuts (`Ctrl+Shift+S`), and instant badge feedback.
+
+---
+
+## 3. Other Production Engineering Projects
+
+### Project: Tivaq
+- **URL**: https://www.tivaqfragrance.com
+- **Case Study**: https://belal.is-a.dev/project/tivaq
+- **Category**: Luxury Fragrance E-Commerce & Authenticity Verification Suite
+- **Role**: Lead Full-Stack Engineer
+- **Stack**: React 19, Node.js, Express.js, MongoDB, Mongoose ODM, Tailwind CSS v4, i18next
+- **Key Architectural Features**:
+  - Sub-25ms bottle serial authenticity verification powered by SHA-256 batch hashes and compound database indices.
+  - Zero-layout-shift internationalization engine supporting dynamic English (LTR) and Arabic (RTL) transitions using native CSS logical properties.
+  - Multi-tab synchronized shopping cart state with optimistic updates and server reconciliation.
+  - Granular administrative role-based access control (RBAC) portal for inventory tracking and audit logs.
+
+### Project: LOOP
+- **Case Study**: https://belal.is-a.dev/project/loop
+- **Category**: AI Workflow Intelligence & Node Visualization Platform
+- **Role**: Frontend Systems Architect
+- **Stack**: React, TypeScript, GSAP ScrollTrigger, Canvas API, Tailwind CSS
+- **Key Architectural Features**:
+  - Interactive multi-node execution visualizer rendering real-time process flows.
+  - Hardware-accelerated 60fps animations with GSAP context cleanups to eliminate memory leaks.
+  - Dynamic responsive data matrices mapping high-throughput event telemetry.
+
+### Project: Moviq
+- **Live Application**: https://moviqq.vercel.app
+- **Case Study**: https://belal.is-a.dev/project/moviq
+- **Category**: High-Performance Media Discovery Engine
+- **Role**: Frontend Engineer
+- **Stack**: React, Redux Toolkit, TMDB API, Tailwind CSS
+- **Key Architectural Features**:
+  - Instant debounced multi-parameter search (genres, release dates, ratings, certifications).
+  - Virtualized responsive media grids supporting infinite scrolling without DOM bloat.
+  - In-modal HD trailer playback with custom playback controls.
+
+### Project: Obel
+- **Case Study**: https://belal.is-a.dev/project/obel>
+- **Category**: Modular Personal Productivity Workspace
+- **Role**: Full-Stack Engineer
+- **Stack**: React, Node.js, Express, MongoDB, Tailwind CSS
+- **Key Architectural Features**:
+  - Drag-and-drop Kanban workflow boards with optimistic state transitions.
+  - End-to-end encrypted personal markdown notes and automated JSON backup export.
+
+---
+
+## 4. Comprehensive Technical Competencies
+
+### Frontend Engineering
+- **Frameworks & Libraries**: React 19, Next.js (App Router, Server Components, Server Actions), Vite.
+- **State Management**: Redux Toolkit, Dexie.js `useLiveQuery`, React Context, Zustand.
+- **Languages**: TypeScript (Strict Mode, Generics, Utility Types, Discriminated Unions), JavaScript (ES2024+).
+- **Styling & Design Systems**: Tailwind CSS v4, CSS-first `@theme` directives, OKLCH color palettes, CSS Grid / Flexbox, CSS Logical Properties, GSAP, Framer Motion, Lucide Icons.
+- **Web Standards & Performance**: Progressive Web Apps (PWAs), Service Workers (Workbox), Web Workers, Cache API, Core Web Vitals optimization (LCP < 1.2s, INP < 50ms, CLS = 0).
+
+### Backend, Cloud & Edge Infrastructure
+- **Serverless & Edge Runtimes**: Cloudflare Workers (Hono, V8 Isolates), Cloudflare Pages, Cloudflare D1 (Serverless Distributed SQLite), Cloudflare KV, Vercel Serverless.
+- **Traditional Runtimes**: Node.js (v18, v20, v22), Express.js, C# / ASP.NET Core (MVC, Web API).
+- **API Design**: RESTful APIs, OpenAPI / Swagger specifications, JSON-LD structured schemas, SSE (Server-Sent Events), WebSockets.
+- **Authentication & Security**: JWT (JSON Web Tokens), OAuth2, Bcrypt password hashing, Helmet security headers, CORS preflight policies, CSRF mitigation, Zod boundary validation.
+
+### Databases & Persistence
+- **Relational**: Cloudflare D1 (SQLite), PostgreSQL (Supabase / Neon), Microsoft SQL Server.
+- **Document / NoSQL**: MongoDB (Mongoose ODM, compound indexing, aggregation pipelines).
+- **Client-Side**: Dexie.js v5, IndexedDB, LocalStorage, WebCrypto.
+
+### Native & Extensions
+- **Mobile Runtime**: Capacitor 8 (Android Studio, Gradle build pipelines, Intent bridges).
+- **Browser Extensions**: Manifest V3 (Background Service Workers, declarativeNetRequest, activeTab, chrome.storage).
+
+### DevOps, Tooling & Testing
+- **Testing Frameworks**: Vitest, React Testing Library, Playwright, Jest.
+- **Version Control & CI/CD**: Git, GitHub Actions, Wrangler CLI, npm / pnpm.
+- **Design & Prototyping**: Figma, Whimsical, Excalidraw.
+
+---
+
+## 5. Contact & Hiring Verification
+
+- **Email**: belalwaheed000@gmail.com
+- **Canonical Portfolio**: https://belal.is-a.dev
+- **ATS Resume**: https://belal.is-a.dev/resume
+- **GitHub**: https://github.com/belal-waheed
+- **LinkedIn**: https://www.linkedin.com/in/belal-whaeed
+- **Availability**: Open to Full-Time Remote Roles, Hybrid Engineering Positions, and Technical Architecture Contracts.
