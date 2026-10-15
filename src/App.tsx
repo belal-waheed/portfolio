@@ -1,8 +1,5 @@
 import { useEffect, lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router';
-import Lenis from 'lenis';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Layout } from '@/components/layout';
 
 // Lazy-loaded route views for optimal initial bundle performance
@@ -10,8 +7,6 @@ const HomePage = lazy(() => import('@/pages/HomePage'));
 const ProjectPage = lazy(() => import('@/pages/ProjectPage').then((m) => ({ default: m.ProjectPage })));
 const ResumePage = lazy(() => import('@/pages/ResumePage').then((m) => ({ default: m.ResumePage })));
 const NotFoundPage = lazy(() => import('@/pages/NotFoundPage').then((m) => ({ default: m.NotFoundPage })));
-
-gsap.registerPlugin(ScrollTrigger);
 
 // Helper component to scroll window and Lenis virtual scroll to top on route change
 function ScrollToTop() {
@@ -27,7 +22,7 @@ function ScrollToTop() {
     document.body.scrollTo({ top: 0, left: 0, behavior: 'instant' });
 
     // Reset Lenis virtual scroll state immediately
-    const lenis = (window as unknown as { __lenis?: Lenis }).__lenis;
+    const lenis = (window as unknown as { __lenis?: { scrollTo: (target: number, opts: { immediate: boolean }) => void } }).__lenis;
     if (lenis) {
       lenis.scrollTo(0, { immediate: true });
     }
@@ -46,7 +41,7 @@ function PageLoader() {
         </div>
         <div className="absolute inset-0 rounded-2xl border-2 border-emerald-500/30 animate-ping pointer-events-none" />
       </div>
-      <div className="text-xs font-mono text-zinc-500 uppercase tracking-widest">
+      <div className="text-xs font-mono text-zinc-400 uppercase tracking-widest">
         Loading View...
       </div>
     </div>
@@ -58,29 +53,43 @@ export function App() {
     // Only initialize Lenis smooth scroll on non-touch desktop devices with fine pointer
     if (typeof window === 'undefined' || !window.matchMedia('(pointer: fine)').matches) return;
 
-    const lenis = new Lenis({
-      duration: 1.1,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      smoothWheel: true,
-      touchMultiplier: 0,
+    let cleanup: (() => void) | undefined;
+
+    Promise.all([
+      import('lenis'),
+      import('gsap'),
+      import('gsap/ScrollTrigger'),
+    ]).then(([{ default: Lenis }, { default: gsap }, { ScrollTrigger }]) => {
+      gsap.registerPlugin(ScrollTrigger);
+
+      const lenis = new Lenis({
+        duration: 1.1,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        smoothWheel: true,
+        touchMultiplier: 0,
+      });
+
+      // Expose lenis instance to window for global scroll synchronization
+      (window as unknown as { __lenis?: unknown }).__lenis = lenis;
+
+      lenis.on('scroll', ScrollTrigger.update);
+
+      const tickerCallback = (time: number) => {
+        lenis.raf(time * 1000);
+      };
+
+      gsap.ticker.add(tickerCallback);
+      gsap.ticker.lagSmoothing(500, 33);
+
+      cleanup = () => {
+        gsap.ticker.remove(tickerCallback);
+        (window as unknown as { __lenis?: unknown }).__lenis = null;
+        lenis.destroy();
+      };
     });
 
-    // Expose lenis instance to window for global scroll synchronization
-    (window as unknown as { __lenis?: Lenis }).__lenis = lenis;
-
-    lenis.on('scroll', ScrollTrigger.update);
-
-    const tickerCallback = (time: number) => {
-      lenis.raf(time * 1000);
-    };
-
-    gsap.ticker.add(tickerCallback);
-    gsap.ticker.lagSmoothing(500, 33);
-
     return () => {
-      gsap.ticker.remove(tickerCallback);
-      (window as unknown as { __lenis?: Lenis | null }).__lenis = null;
-      lenis.destroy();
+      if (cleanup) cleanup();
     };
   }, []);
 

@@ -64,7 +64,7 @@ export function Skills({ onSelectTag, activeTag }: SkillsProps) {
                   <Terminal size={18} className="text-emerald-400" />
                   <span>{cat.title}</span>
                 </h3>
-                <p className="text-xs text-zinc-500 font-mono">
+                <p className="text-xs text-zinc-400 font-mono">
                   {cat.skills.length} Production Technologies
                 </p>
               </div>

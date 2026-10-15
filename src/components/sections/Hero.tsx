@@ -170,9 +170,21 @@ export function Hero() {
         ref={watermarkRef}
         className="absolute top-12 left-0 right-0 flex justify-center pointer-events-none z-0"
       >
-        <span className="font-extrabold text-[22vw] leading-none tracking-tighter text-white/[0.03] uppercase font-display select-none">
-          BELAL
-        </span>
+        <svg
+          aria-hidden="true"
+          viewBox="0 0 1000 240"
+          className="w-full max-w-7xl h-auto select-none pointer-events-none"
+        >
+          <text
+            x="50%"
+            y="65%"
+            textAnchor="middle"
+            dominantBaseline="middle"
+            className="font-extrabold text-[180px] tracking-tighter uppercase font-display fill-white/[0.03]"
+          >
+            BELAL
+          </text>
+        </svg>
       </div>
 
       {/* Main Container */}
@@ -352,7 +364,7 @@ export function Hero() {
       {/* Bottom Scroll Indicator */}
       <div
         ref={scrollIndicatorRef}
-        className="w-full flex items-center justify-center pt-4 text-zinc-500 text-[11px] font-mono gap-1 pointer-events-none"
+        className="w-full flex items-center justify-center pt-4 text-zinc-400 text-[11px] font-mono gap-1 pointer-events-none"
       >
         <ArrowDown size={12} className="animate-bounce text-emerald-500/60" />
         <span>Scroll to explore projects & skills</span>

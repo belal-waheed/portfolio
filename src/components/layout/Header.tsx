@@ -191,7 +191,7 @@ export function Header({ onOpenResume }: HeaderProps) {
                 <span className="text-zinc-100 font-display font-bold text-sm sm:text-base tracking-tight leading-tight group-hover:text-emerald-400 transition-colors">
                   Belal Waheed
                 </span>
-                <span className="text-[10px] font-mono text-zinc-500 leading-tight">
+                <span className="text-[10px] font-mono text-zinc-400 leading-tight">
                   Full-Stack Dev
                 </span>
               </div>

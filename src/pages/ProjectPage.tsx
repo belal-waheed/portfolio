@@ -289,7 +289,7 @@ const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({ project }) => {
                   Your browser does not support the video tag.
                 </video>
               </div>
-              <div className="flex items-center justify-between text-xs font-mono text-zinc-500 px-1">
+              <div className="flex items-center justify-between text-xs font-mono text-zinc-400 px-1">
                 <span>HD Video Walkthrough Demo</span>
                 <span>WebM / MP4 • 1080p</span>
               </div>

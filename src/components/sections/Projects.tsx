@@ -149,7 +149,7 @@ export function Projects({ selectedTag: externalTag, onTagSelect }: ProjectsProp
                             className="group-hover:text-emerald-400 transition-colors flex items-center justify-between"
                           >
                             <span>{project.title}</span>
-                            <ArrowUpRight size={18} className="text-zinc-500 group-hover:text-emerald-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                            <ArrowUpRight size={18} className="text-zinc-400 group-hover:text-emerald-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                           </Link>
                         </h3>
                         <p className="text-zinc-400 text-xs sm:text-sm leading-relaxed">

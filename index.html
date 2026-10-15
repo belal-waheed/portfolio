@@ -49,7 +49,8 @@
   <meta name="twitter:creator" content="@BelalWah8ed" />
 
   <!-- Critical Asset Preloads for LCP -->
-  <link rel="preload" as="image" href="/profile.webp" type="image/webp" fetchpriority="high" />
+  <link rel="preload" as="image" href="/profile-m.webp" type="image/webp" media="(max-width: 768px)" fetchpriority="high" />
+  <link rel="preload" as="image" href="/profile.webp" type="image/webp" media="(min-width: 769px)" fetchpriority="high" />
 
   <!-- Google Fonts: Geist + Geist Mono (Non-blocking with display=swap) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />

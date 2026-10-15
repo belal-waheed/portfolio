@@ -1,4 +1,3 @@
-import { motion } from 'framer-motion';
 import { Outlet } from 'react-router';
 import { Header } from './Header';
 import { Footer } from './Footer';
@@ -17,14 +16,9 @@ export function Layout({ onOpenResume }: LayoutProps) {
       <Header onOpenResume={onOpenResume} />
       
       {/* Main Content */}
-      <motion.main 
-        className="flex-1 relative z-10"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.5 }}
-      >
+      <main className="flex-1 relative z-10 animate-fade-in">
         <Outlet />
-      </motion.main>
+      </main>
       
       {/* Footer */}
       <Footer />
