@@ -422,7 +422,7 @@ const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({ project }) => {
                 className="space-y-8"
               >
                 <div>
-                  <h3 className="text-xl font-bold text-white mb-2">Layered System Architecture</h3>
+                  <h2 className="text-xl font-bold text-white mb-2">Layered System Architecture</h2>
                   <p className="text-sm text-zinc-400">
                     High-level component breakdown, boundary contracts, and persistent layer data flow.
                   </p>
@@ -464,7 +464,7 @@ const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({ project }) => {
                 {/* Key Features List */}
                 {project.features && project.features.length > 0 && (
                   <div className="pt-6 border-t border-zinc-800/80">
-                    <h4 className="text-base font-bold text-white mb-4">Core Feature Deliverables</h4>
+                    <h3 className="text-base font-bold text-white mb-4">Core Feature Deliverables</h3>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       {project.features.map((feat, idx) => (
                         <div
@@ -492,7 +492,7 @@ const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({ project }) => {
                 className="space-y-6"
               >
                 <div>
-                  <h3 className="text-xl font-bold text-white mb-2">Technical Challenges & Solved Problems</h3>
+                  <h2 className="text-xl font-bold text-white mb-2">Technical Challenges & Solved Problems</h2>
                   <p className="text-sm text-zinc-400">
                     First-principles deconstruction of real engineering hurdles and how they were resolved.
                   </p>
@@ -509,7 +509,7 @@ const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({ project }) => {
                           <span className="px-2.5 py-1 rounded-md bg-amber-500/10 border border-amber-500/20 text-amber-400 text-xs font-mono font-semibold">
                             Challenge #{idx + 1}
                           </span>
-                          <h4 className="text-base font-bold text-white">{item.title}</h4>
+                          <h3 className="text-base font-bold text-white">{item.title}</h3>
                         </div>
 
                         <div className="space-y-3 text-sm">
@@ -553,7 +553,7 @@ const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({ project }) => {
                 className="space-y-6"
               >
                 <div>
-                  <h3 className="text-xl font-bold text-white mb-2">Technology Stack Matrix</h3>
+                  <h2 className="text-xl font-bold text-white mb-2">Technology Stack Matrix</h2>
                   <p className="text-sm text-zinc-400">
                     Comprehensive inventory of libraries, frameworks, and deployment services powering the application.
                   </p>
@@ -659,7 +659,7 @@ const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({ project }) => {
                 className="space-y-8"
               >
                 <div>
-                  <h3 className="text-xl font-bold text-white mb-2">Performance Benchmarks & Key Learnings</h3>
+                  <h2 className="text-xl font-bold text-white mb-2">Performance Benchmarks & Key Learnings</h2>
                   <p className="text-sm text-zinc-400">
                     Measurable results, latency milestones, and architecture insights gained during implementation.
                   </p>
@@ -684,7 +684,7 @@ const ProjectDetailView: React.FC<ProjectDetailViewProps> = ({ project }) => {
                 {/* Learnings */}
                 {project.learnings && project.learnings.length > 0 && (
                   <div className="pt-6 border-t border-zinc-800">
-                    <h4 className="text-base font-bold text-white mb-4">Engineering Takeaways</h4>
+                    <h3 className="text-base font-bold text-white mb-4">Engineering Takeaways</h3>
                     <div className="space-y-3">
                       {project.learnings.map((l, idx) => (
                         <div

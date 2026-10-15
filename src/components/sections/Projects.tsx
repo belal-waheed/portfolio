@@ -143,13 +143,15 @@ export function Projects({ selectedTag: externalTag, onTagSelect }: ProjectsProp
                     {/* Project Details */}
                     <div className="p-6 sm:p-7 space-y-4">
                       <div className="space-y-1.5">
-                        <Link
-                          to={`/project/${project.slug}`}
-                          className="text-xl sm:text-2xl font-bold text-zinc-100 group-hover:text-emerald-400 transition-colors flex items-center justify-between"
-                        >
-                          <span>{project.title}</span>
-                          <ArrowUpRight size={18} className="text-zinc-500 group-hover:text-emerald-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-                        </Link>
+                        <h3 className="text-xl sm:text-2xl font-bold text-zinc-100">
+                          <Link
+                            to={`/project/${project.slug}`}
+                            className="group-hover:text-emerald-400 transition-colors flex items-center justify-between"
+                          >
+                            <span>{project.title}</span>
+                            <ArrowUpRight size={18} className="text-zinc-500 group-hover:text-emerald-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                          </Link>
+                        </h3>
                         <p className="text-zinc-400 text-xs sm:text-sm leading-relaxed">
                           {project.description}
                         </p>

@@ -33,7 +33,7 @@ export function Footer() {
                 Belal Waheed
               </span>
             </div>
-            <p className="text-xs text-zinc-500 font-mono">
+            <p className="text-xs text-zinc-400 font-mono">
               Crafted with React 19, Tailwind v4 & GSAP
             </p>
           </div>
@@ -71,7 +71,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-8 pt-6 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-zinc-500">
+        <div className="mt-8 pt-6 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-zinc-400">
           <p>© {currentYear} {PROFILE.name}. All rights reserved.</p>
           <p className="flex items-center gap-1.5">
             Designed for 60fps performance & accessibility

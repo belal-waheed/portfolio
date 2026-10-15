@@ -90,7 +90,7 @@ export function Skills({ onSelectTag, activeTag }: SkillsProps) {
                           {skill.name}
                         </span>
                         {skill.description && (
-                          <span className="text-[11px] text-zinc-500 font-normal leading-tight font-sans">
+                          <span className="text-[11px] text-zinc-400 font-normal leading-tight font-sans">
                             {skill.description}
                           </span>
                         )}

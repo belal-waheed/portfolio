@@ -213,9 +213,9 @@ export function Contact() {
 
             {/* Social Network Profiles */}
             <div className="studio-card p-5 border border-white/10 space-y-3 bg-zinc-900/60">
-              <h4 className="text-xs font-mono text-zinc-400 uppercase">
+              <h3 className="text-xs font-mono text-zinc-400 uppercase">
                 Profiles & Social
-              </h4>
+              </h3>
               <div className="flex items-center gap-2">
                 <a
                   href="https://github.com/belal-waheed"

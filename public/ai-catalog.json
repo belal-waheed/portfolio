@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json.schemastore.org/ai-plugin.json",
+  "schema_version": "v1",
+  "name_for_model": "belal_waheed_portfolio",
+  "name_for_human": "Belal Waheed Portfolio",
+  "description_for_model": "Belal Waheed's personal developer portfolio, featuring full-stack engineering projects, systems architecture, and contact information.",
+  "description_for_human": "Full-Stack Software Engineer Portfolio of Belal Waheed.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://belal.is-a.dev/llms.txt"
+  },
+  "logo_url": "https://belal.is-a.dev/profile.webp",
+  "contact_email": "belalwaheed000@gmail.com",
+  "legal_info_url": "https://belal.is-a.dev/"
+}
