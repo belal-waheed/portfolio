@@ -82,6 +82,30 @@ function contactApiDevPlugin(): Plugin {
   };
 }
 
+// Inline critical CSS into index.html to eliminate 100% of render-blocking stylesheets
+function inlineCssPlugin(): Plugin {
+  return {
+    name: "inline-css",
+    enforce: "post",
+    generateBundle(_, bundle) {
+      const cssFileName = Object.keys(bundle).find((name) => name.endsWith(".css"));
+      const htmlFile = bundle["index.html"];
+      if (cssFileName && htmlFile && "source" in htmlFile) {
+        const cssAsset = bundle[cssFileName];
+        if (cssAsset && "source" in cssAsset) {
+          const cssContent = cssAsset.source.toString();
+          let html = htmlFile.source.toString();
+          html = html.replace(
+            new RegExp(`<link[^>]*href="[^"]*${path.basename(cssFileName)}"[^>]*>`, "i"),
+            `<style>${cssContent}</style>`
+          );
+          htmlFile.source = html;
+        }
+      }
+    },
+  };
+}
+
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
@@ -91,6 +115,7 @@ export default defineConfig({
       presets: [reactCompilerPreset()],
     }),
     tailwindcss(),
+    inlineCssPlugin(),
   ],
   resolve: {
     alias: {
@@ -108,17 +133,17 @@ export default defineConfig({
             if (id.includes("react-router")) {
               return "router";
             }
-            if (id.includes("react") || id.includes("react-dom")) {
-              return "react-core";
-            }
-            if (id.includes("framer-motion")) {
-              return "motion";
-            }
-            if (id.includes("gsap") || id.includes("lenis")) {
-              return "gsap-lenis";
-            }
             if (id.includes("lucide-react")) {
               return "icons";
+            }
+            if (id.includes("react") || id.includes("react-dom") || id.includes("scheduler")) {
+              return "react-core";
+            }
+            if (id.includes("lenis")) {
+              return "lenis";
+            }
+            if (id.includes("gsap")) {
+              return "gsap";
             }
           }
         },

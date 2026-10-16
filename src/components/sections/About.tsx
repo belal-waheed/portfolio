@@ -1,6 +1,4 @@
 import { PROFILE } from "@/data/constants";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
   Briefcase,
   Calendar,
@@ -12,9 +10,7 @@ import {
   User,
   Zap,
 } from "lucide-react";
-import { useLayoutEffect, useRef } from "react";
-
-gsap.registerPlugin(ScrollTrigger);
+import { useEffect, useRef } from "react";
 
 const experiences = [
   {
@@ -71,11 +67,19 @@ export function About() {
   const leftColRef = useRef<HTMLDivElement>(null);
   const rightColRef = useRef<HTMLDivElement>(null);
 
-  useLayoutEffect(() => {
-    const ctx = gsap.context(() => {
-      const mm = gsap.matchMedia();
+  useEffect(() => {
+    if (typeof window === "undefined" || !window.matchMedia("(pointer: fine)").matches) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-      mm.add("(min-width: 768px)", () => {
+    let ctx: { revert: () => void } | undefined;
+
+    Promise.all([
+      import("gsap"),
+      import("gsap/ScrollTrigger"),
+    ]).then(([{ default: gsap }, { ScrollTrigger }]) => {
+      gsap.registerPlugin(ScrollTrigger);
+
+      ctx = gsap.context(() => {
         gsap.fromTo(
           leftColRef.current,
           { x: -60, opacity: 0 },
@@ -107,28 +111,12 @@ export function About() {
             },
           }
         );
-      });
+      }, sectionRef);
+    });
 
-      mm.add("(max-width: 767px)", () => {
-        gsap.fromTo(
-          [leftColRef.current, rightColRef.current],
-          { y: 40, opacity: 0 },
-          {
-            y: 0,
-            opacity: 1,
-            stagger: 0.15,
-            duration: 0.8,
-            ease: "power2.out",
-            scrollTrigger: {
-              trigger: sectionRef.current,
-              start: "top 85%",
-            },
-          }
-        );
-      });
-    }, sectionRef);
-
-    return () => ctx.revert();
+    return () => {
+      if (ctx) ctx.revert();
+    };
   }, []);
 
   return (

@@ -1,5 +1,4 @@
 import { PROFILE, SOCIAL_LINKS } from "@/data/constants";
-import { motion } from "framer-motion";
 import { ArrowUp, Github, Instagram, Linkedin, Mail } from "lucide-react";
 
 const iconMap: Record<
@@ -43,31 +42,27 @@ export function Footer() {
             {SOCIAL_LINKS.map((link) => {
               const Icon = iconMap[link.icon];
               return Icon ? (
-                <motion.a
+                <a
                   key={link.name}
                   href={link.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-2.5 text-zinc-400 hover:text-emerald-400 transition-colors duration-200 rounded-xl bg-zinc-900/60 border border-white/5 hover:border-emerald-500/30"
+                  className="p-2.5 text-zinc-400 hover:text-emerald-400 rounded-xl bg-zinc-900/60 border border-white/5 hover:border-emerald-500/30 hover:-translate-y-0.5 active:scale-95 transition-transform duration-200"
                   aria-label={link.name}
-                  whileHover={{ y: -2 }}
-                  whileTap={{ scale: 0.95 }}
                 >
                   <Icon size={16} />
-                </motion.a>
+                </a>
               ) : null;
             })}
 
             {/* Back to top */}
-            <motion.button
+            <button
               onClick={scrollToTop}
-              className="p-2.5 text-zinc-400 hover:text-zinc-100 transition-colors duration-200 rounded-xl bg-zinc-900/60 border border-white/5 hover:border-white/20 cursor-pointer ml-2"
+              className="p-2.5 text-zinc-400 hover:text-zinc-100 rounded-xl bg-zinc-900/60 border border-white/5 hover:border-white/20 cursor-pointer ml-2 hover:-translate-y-0.5 active:scale-95 transition-transform duration-200"
               aria-label="Back to top"
-              whileHover={{ y: -2 }}
-              whileTap={{ scale: 0.95 }}
             >
               <ArrowUp size={16} />
-            </motion.button>
+            </button>
           </div>
         </div>
 

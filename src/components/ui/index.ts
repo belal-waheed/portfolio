@@ -3,4 +3,4 @@ export { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent }
 export { Badge } from './Badge';
 export { Input } from './Input';
 export { Textarea } from './Textarea';
-export { ImageLightbox, type ImageLightboxProps } from './ImageLightbox';
+export type { ImageLightboxProps } from './ImageLightbox';

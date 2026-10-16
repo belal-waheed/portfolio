@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { Link } from 'react-router';
-import { AnimatePresence, motion } from 'framer-motion';
 import { ExternalLink, Github, Play, ArrowUpRight, Check, RotateCcw, ArrowRight, FolderGit2 } from 'lucide-react';
 import { Button } from '@/components/ui';
 import { PROJECTS } from '@/data/constants';
@@ -64,38 +63,29 @@ export function Projects({ selectedTag: externalTag, onTagSelect }: ProjectsProp
         </div>
 
         {/* Projects Bento Grid */}
-        <motion.div layout className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <AnimatePresence mode="popLayout">
-            {filteredProjects.length === 0 ? (
-              <motion.div
-                key="empty-state"
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0 }}
-                className="col-span-full py-16 text-center studio-card border border-white/10 p-8 space-y-4"
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {filteredProjects.length === 0 ? (
+            <div
+              key="empty-state"
+              className="col-span-full py-16 text-center studio-card border border-white/10 p-8 space-y-4"
+            >
+              <div className="w-12 h-12 rounded-2xl bg-zinc-900 border border-white/10 flex items-center justify-center mx-auto text-zinc-400">
+                <FolderGit2 size={22} />
+              </div>
+              <h3 className="text-lg font-bold text-zinc-200">No projects found with filter "{activeFilter}"</h3>
+              <p className="text-xs text-zinc-400 max-w-md mx-auto">
+                Try selecting another technology or clear the active filter to view all production projects.
+              </p>
+              <Button size="sm" onClick={() => handleFilterChange('All')} className="inline-flex items-center gap-1.5">
+                <RotateCcw size={14} /> Clear Active Filter
+              </Button>
+            </div>
+          ) : (
+            filteredProjects.map((project) => (
+              <div
+                key={project.id}
+                className="studio-card group flex flex-col justify-between border border-white/10 hover:border-emerald-500/40 transition-all duration-300 shadow-2xl animate-fade-in"
               >
-                <div className="w-12 h-12 rounded-2xl bg-zinc-900 border border-white/10 flex items-center justify-center mx-auto text-zinc-400">
-                  <FolderGit2 size={22} />
-                </div>
-                <h3 className="text-lg font-bold text-zinc-200">No projects found with filter "{activeFilter}"</h3>
-                <p className="text-xs text-zinc-400 max-w-md mx-auto">
-                  Try selecting another technology or clear the active filter to view all production projects.
-                </p>
-                <Button size="sm" onClick={() => handleFilterChange('All')} className="inline-flex items-center gap-1.5">
-                  <RotateCcw size={14} /> Clear Active Filter
-                </Button>
-              </motion.div>
-            ) : (
-              filteredProjects.map((project, index) => (
-                <motion.div
-                  key={project.id}
-                  layout
-                  initial={{ opacity: 0, y: 25 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.95 }}
-                  transition={{ duration: 0.4, delay: index * 0.05 }}
-                  className="studio-card group flex flex-col justify-between border border-white/10 hover:border-emerald-500/40 transition-all duration-300 shadow-2xl"
-                >
                   <div>
                     {/* Framed Media Preview Container */}
                     <Link
@@ -219,11 +209,10 @@ export function Projects({ selectedTag: externalTag, onTagSelect }: ProjectsProp
                       </a>
                     )}
                   </div>
-                </motion.div>
+                </div>
               ))
             )}
-          </AnimatePresence>
-        </motion.div>
+        </div>
 
       </div>
     </section>

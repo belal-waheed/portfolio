@@ -1,5 +1,4 @@
-import { useLayoutEffect, useRef } from 'react';
-import gsap from 'gsap';
+import { useEffect, useRef } from 'react';
 import { ArrowDown, ArrowUpRight, Code2, Download } from 'lucide-react';
 import { PROFILE, PROJECTS } from '@/data/constants';
 import { Button } from '@/components/ui';
@@ -14,76 +13,85 @@ export function Hero() {
   const cardBottomRightRef = useRef<HTMLDivElement>(null);
   const statementRef = useRef<HTMLDivElement>(null);
   const scrollIndicatorRef = useRef<HTMLDivElement>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const gsapRef = useRef<any>(null);
 
-  useLayoutEffect(() => {
-    // Respect OS reduced-motion preference
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      return;
-    }
+  useEffect(() => {
+    if (typeof window === 'undefined' || !window.matchMedia('(pointer: fine)').matches) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-    const ctx = gsap.context(() => {
-      const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+    let ctx: { revert: () => void } | undefined;
 
-      tl.from(watermarkRef.current, {
-        opacity: 0,
-        y: -30,
-        duration: 1.0,
-      })
-      .from([photoRef.current, mobilePhotoRef.current], {
-        scale: 0.94,
-        opacity: 0,
-        y: 20,
-        duration: 0.9,
-        ease: 'back.out(1.2)',
-      }, '-=0.7')
-      .from([statementRef.current, nameRef.current], {
-        opacity: 0,
-        y: 20,
-        stagger: 0.12,
-        duration: 0.8,
-      }, '-=0.7')
-      .from([cardTopRightRef.current, cardBottomRightRef.current], {
-        opacity: 0,
-        scale: 0.9,
-        x: 20,
-        stagger: 0.12,
-        duration: 0.7,
-      }, '-=0.5')
-      .from(scrollIndicatorRef.current, {
-        opacity: 0,
-        y: 10,
-        duration: 0.5,
-      }, '-=0.2');
+    import('gsap').then(({ default: gsap }) => {
+      gsapRef.current = gsap;
+      ctx = gsap.context(() => {
+        const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
 
-      // Subtle ambient float on desktop cards
-      if (cardTopRightRef.current) {
-        gsap.to(cardTopRightRef.current, {
-          y: -8,
-          duration: 3.5,
-          repeat: -1,
-          yoyo: true,
-          ease: 'sine.inOut',
-        });
-      }
+        tl.from(watermarkRef.current, {
+          opacity: 0,
+          y: -30,
+          duration: 1.0,
+        })
+        .from(photoRef.current, {
+          scale: 0.94,
+          opacity: 0,
+          y: 20,
+          duration: 0.9,
+          ease: 'back.out(1.2)',
+        }, '-=0.7')
+        .from([statementRef.current, nameRef.current], {
+          opacity: 0,
+          y: 20,
+          stagger: 0.12,
+          duration: 0.8,
+        }, '-=0.7')
+        .from([cardTopRightRef.current, cardBottomRightRef.current], {
+          opacity: 0,
+          scale: 0.9,
+          x: 20,
+          stagger: 0.12,
+          duration: 0.7,
+        }, '-=0.5')
+        .from(scrollIndicatorRef.current, {
+          opacity: 0,
+          y: 10,
+          duration: 0.5,
+        }, '-=0.2');
 
-      if (cardBottomRightRef.current) {
-        gsap.to(cardBottomRightRef.current, {
-          y: 6,
-          duration: 4,
-          repeat: -1,
-          yoyo: true,
-          ease: 'sine.inOut',
-          delay: 0.5,
-        });
-      }
-    }, containerRef);
+        // Subtle ambient float on desktop cards
+        if (cardTopRightRef.current) {
+          gsap.to(cardTopRightRef.current, {
+            y: -8,
+            duration: 3.5,
+            repeat: -1,
+            yoyo: true,
+            ease: 'sine.inOut',
+          });
+        }
 
-    return () => ctx.revert();
+        if (cardBottomRightRef.current) {
+          gsap.to(cardBottomRightRef.current, {
+            y: 6,
+            duration: 4,
+            repeat: -1,
+            yoyo: true,
+            ease: 'sine.inOut',
+            delay: 0.5,
+          });
+        }
+      }, containerRef);
+    });
+
+    return () => {
+      if (ctx) ctx.revert();
+    };
   }, []);
 
-  // Desktop Mouse Move Depth Parallax (Disabled on touch)
+  // Desktop Mouse Move Depth Parallax (Disabled on touch / coarse pointer)
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!containerRef.current || window.matchMedia('(pointer: coarse)').matches) return;
+    if (typeof window === 'undefined' || !window.matchMedia('(pointer: fine)').matches) return;
+    const gsap = gsapRef.current;
+    if (!gsap || !containerRef.current) return;
     const rect = containerRef.current.getBoundingClientRect();
     const x = (e.clientX - rect.left - rect.width / 2) / (rect.width / 2);
     const y = (e.clientY - rect.top - rect.height / 2) / (rect.height / 2);
@@ -127,7 +135,9 @@ export function Hero() {
   };
 
   const handleMouseLeave = () => {
-    if (window.matchMedia('(pointer: coarse)').matches) return;
+    if (typeof window === 'undefined' || !window.matchMedia('(pointer: fine)').matches) return;
+    const gsap = gsapRef.current;
+    if (!gsap) return;
     [photoRef.current, cardTopRightRef.current, cardBottomRightRef.current, watermarkRef.current].forEach(
       (el) => {
         if (el) {
@@ -271,18 +281,16 @@ export function Hero() {
               className="absolute inset-0 rounded-3xl opacity-30 blur-2xl pointer-events-none"
               style={{ background: 'radial-gradient(circle, rgba(16, 185, 129, 0.7) 0%, rgba(6, 182, 212, 0.3) 60%, transparent 80%)' }}
             />
-            <picture>
-              <source srcSet="/profile-m.webp" type="image/webp" />
-              <img
-                src="/profile.webp"
-                alt={PROFILE.name}
-                width={320}
-                height={400}
-                fetchPriority="high"
-                decoding="async"
-                className="relative z-10 w-full h-full object-cover object-top rounded-3xl"
-              />
-            </picture>
+            <img
+              src="/profile-m.webp"
+              alt="Belal Waheed - Full-Stack & Systems Software Engineer"
+              width={320}
+              height={320}
+              fetchPriority="high"
+              loading="eager"
+              decoding="sync"
+              className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
+            />
           </div>
         </div>
 

@@ -16,7 +16,7 @@ export function Layout({ onOpenResume }: LayoutProps) {
       <Header onOpenResume={onOpenResume} />
       
       {/* Main Content */}
-      <main className="flex-1 relative z-10 animate-fade-in">
+      <main className="flex-1 relative z-10">
         <Outlet />
       </main>
       

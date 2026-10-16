@@ -2,8 +2,9 @@ import { useEffect, lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router';
 import { Layout } from '@/components/layout';
 
-// Lazy-loaded route views for optimal initial bundle performance
-const HomePage = lazy(() => import('@/pages/HomePage'));
+import { HomePage } from '@/pages/HomePage';
+
+// Lazy-loaded secondary route views for optimal code-splitting
 const ProjectPage = lazy(() => import('@/pages/ProjectPage').then((m) => ({ default: m.ProjectPage })));
 const ResumePage = lazy(() => import('@/pages/ResumePage').then((m) => ({ default: m.ResumePage })));
 const NotFoundPage = lazy(() => import('@/pages/NotFoundPage').then((m) => ({ default: m.NotFoundPage })));

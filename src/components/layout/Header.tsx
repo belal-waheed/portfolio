@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui";
 import { NAV_ITEMS } from "@/data/constants";
-import { AnimatePresence, motion } from "framer-motion";
 import { FileText, Menu, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router";
@@ -220,11 +219,7 @@ export function Header({ onOpenResume }: HeaderProps) {
                 >
                   {item.label}
                   {isItemActive && (
-                    <motion.div
-                      className="absolute bottom-0 left-1/2 -translate-x-1/2 w-4 h-0.5 rounded-full bg-emerald-400"
-                      layoutId="nav-indicator"
-                      transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                    />
+                    <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-4 h-0.5 rounded-full bg-emerald-400" />
                   )}
                 </button>
               );
@@ -271,69 +266,57 @@ export function Header({ onOpenResume }: HeaderProps) {
         </nav>
 
         {/* Mobile Drawer with Backdrop Click-to-Close */}
-        <AnimatePresence>
-          {isMobileMenuOpen && (
-            <>
-              {/* Tap backdrop to close */}
-              <motion.div
-                className="fixed inset-0 z-40 bg-black/80 backdrop-blur-sm md:hidden"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                onClick={() => setIsMobileMenuOpen(false)}
-              />
+        {isMobileMenuOpen && (
+          <>
+            {/* Tap backdrop to close */}
+            <div
+              className="fixed inset-0 z-40 bg-black/80 backdrop-blur-sm md:hidden animate-fade-in"
+              onClick={() => setIsMobileMenuOpen(false)}
+            />
 
-              <motion.div
-                ref={menuRef}
-                className="md:hidden mt-3 relative z-50"
-                initial={{ opacity: 0, y: -10, scale: 0.98 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: -10, scale: 0.98 }}
-                transition={{ duration: 0.2 }}
-              >
-                <div className="p-4 space-y-2 rounded-2xl bg-zinc-900/98 border border-white/10 shadow-2xl backdrop-blur-xl">
-                  {NAV_ITEMS.map((item, index) => {
-                    const isItemActive = isHomePage && activeSection === item.href;
-                    return (
-                      <motion.button
-                        key={item.href}
-                        onClick={() => handleNavClick(item.href)}
-                        className={`block w-full text-left px-4 py-2.5 rounded-xl text-sm font-medium transition-colors cursor-pointer ${
-                          isItemActive
-                            ? "bg-emerald-500/15 text-emerald-400 font-semibold"
-                            : "text-zinc-300 hover:bg-white/5"
-                        }`}
-                        initial={{ opacity: 0, x: -10 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.15, delay: index * 0.03 }}
-                      >
-                        {item.label}
-                      </motion.button>
-                    );
-                  })}
-
-                  <div className="pt-3 mt-2 border-t border-white/10 space-y-2">
-                    <Link
-                      to="/resume"
-                      onClick={() => setIsMobileMenuOpen(false)}
-                      className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl bg-white/5 text-zinc-200 text-sm font-medium border border-white/10 hover:bg-white/10 transition-colors"
+            <div
+              ref={menuRef}
+              className="md:hidden mt-3 relative z-50 animate-in fade-in zoom-in-95 duration-200"
+            >
+              <div className="p-4 space-y-2 rounded-2xl bg-zinc-900/98 border border-white/10 shadow-2xl backdrop-blur-xl">
+                {NAV_ITEMS.map((item) => {
+                  const isItemActive = isHomePage && activeSection === item.href;
+                  return (
+                    <button
+                      key={item.href}
+                      onClick={() => handleNavClick(item.href)}
+                      className={`block w-full text-left px-4 py-2.5 rounded-xl text-sm font-medium transition-colors cursor-pointer ${
+                        isItemActive
+                          ? "bg-emerald-500/15 text-emerald-400 font-semibold"
+                          : "text-zinc-300 hover:bg-white/5"
+                      }`}
                     >
-                      <FileText size={15} className="text-emerald-400" />
-                      View Interactive Resume
-                    </Link>
+                      {item.label}
+                    </button>
+                  );
+                })}
 
-                    <Button
-                      className="w-full"
-                      onClick={() => handleNavClick("#contact")}
-                    >
-                      Let's Talk
-                    </Button>
-                  </div>
+                <div className="pt-3 mt-2 border-t border-white/10 space-y-2">
+                  <Link
+                    to="/resume"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl bg-white/5 text-zinc-200 text-sm font-medium border border-white/10 hover:bg-white/10 transition-colors"
+                  >
+                    <FileText size={15} className="text-emerald-400" />
+                    View Interactive Resume
+                  </Link>
+
+                  <Button
+                    className="w-full"
+                    onClick={() => handleNavClick("#contact")}
+                  >
+                    Let's Talk
+                  </Button>
                 </div>
-              </motion.div>
-            </>
-          )}
-        </AnimatePresence>
+              </div>
+            </div>
+          </>
+        )}
       </div>
     </header>
   );

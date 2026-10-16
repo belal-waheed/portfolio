@@ -127,6 +127,8 @@ export default {
         newHeaders.set('Cache-Control', 'public, max-age=2592000, stale-while-revalidate=86400');
       } else if (url.pathname.match(/\.(txt|xml)$/i)) {
         newHeaders.set('Cache-Control', 'public, max-age=3600, stale-while-revalidate=86400');
+      } else if (url.pathname === '/' || url.pathname.endsWith('.html')) {
+        newHeaders.set('Cache-Control', 'public, max-age=0, must-revalidate');
       }
       return new Response(response.body, {
         status: response.status,
