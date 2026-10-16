@@ -32,26 +32,13 @@ export function Hero() {
           y: -30,
           duration: 1.0,
         })
-        .from(photoRef.current, {
-          scale: 0.94,
-          opacity: 0,
-          y: 20,
-          duration: 0.9,
-          ease: 'back.out(1.2)',
-        }, '-=0.7')
-        .from([statementRef.current, nameRef.current], {
-          opacity: 0,
-          y: 20,
-          stagger: 0.12,
-          duration: 0.8,
-        }, '-=0.7')
         .from([cardTopRightRef.current, cardBottomRightRef.current], {
           opacity: 0,
           scale: 0.9,
           x: 20,
           stagger: 0.12,
           duration: 0.7,
-        }, '-=0.5')
+        }, '-=0.7')
         .from(scrollIndicatorRef.current, {
           opacity: 0,
           y: 10,
